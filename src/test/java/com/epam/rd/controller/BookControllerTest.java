@@ -79,6 +79,18 @@ public class BookControllerTest {
                 .andExpect(status().isConflict());
     }
 
+    @Test
+    @DisplayName("updateBook should throw exception if Book not exist")
+    public void updateBookShouldGiveNotFoundStatusIfBookNotExist() throws Exception {
+        doThrow(BookNotFoundException.class).when(bookService).updateBook(anyInt() ,any());
+        BookDto bookDto = new BookDto(1,"","","");
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/books/1")
+                        .content(asJsonString(bookDto))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
     public static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);

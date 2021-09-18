@@ -33,4 +33,11 @@ public class BookController {
     public void saveBook(@RequestBody BookDto bookDto) throws DuplicateBookException {
         bookService.saveBook(bookDto);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/books/{bookId}")
+    public void updateBook(@PathVariable int bookId ,@RequestBody BookDto bookDto) throws BookNotFoundException {
+        bookService.updateBook(bookId,bookDto);
+    }
+
 }
