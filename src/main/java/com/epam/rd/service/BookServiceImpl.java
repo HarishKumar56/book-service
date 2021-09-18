@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BookServiceImpl implements BookService{
     @Autowired
@@ -15,10 +16,19 @@ public class BookServiceImpl implements BookService{
     @Autowired
     BookDao bookDao;
     @Override
-    public List<BookDto> getAllUsers() {
+    public List<BookDto> getAllBooks() {
         List<Book> allBooks = bookDao.findAll();
         List<BookDto> allBooksDto = new ArrayList<>();
         allBooks.forEach(book -> allBooksDto.add(modelMapper.map(book,BookDto.class)));
         return allBooksDto;
+    }
+
+    @Override
+    public BookDto getBookById(int bookId) {
+        Optional<Book> book = bookDao.findById(bookId);
+        if(book.isEmpty()){
+
+        }
+        return modelMapper.map(book.get() , BookDto.class);
     }
 }

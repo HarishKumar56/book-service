@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -40,6 +41,13 @@ public class BookServiceImplTest {
     @DisplayName("getAllBooks should return all Books")
     public void getAllBooksShouldReturnAllBooks(){
         when(bookDao.findAll()).thenReturn(List.of(book,book));
-        Assertions.assertEquals(List.of(bookDto , bookDto) , bookService.getAllUsers());
+        Assertions.assertEquals(List.of(bookDto , bookDto) , bookService.getAllBooks());
+    }
+
+    @Test
+    @DisplayName("getBook should return Book by Id")
+    public void getBookShouldReturnBookById() {
+        when(bookDao.findById(anyInt())).thenReturn(java.util.Optional.of(book));
+        Assertions.assertEquals(bookDto, bookService.getBookById(1));
     }
 }

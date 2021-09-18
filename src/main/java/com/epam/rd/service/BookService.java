@@ -5,5 +5,7 @@ import com.epam.rd.dto.BookDto;
 import java.util.List;
 
 public interface BookService {
-    List<BookDto> getAllUsers();
+    List<BookDto> getAllBooks();
+
+    BookDto getBookById(int bookId);
 }
