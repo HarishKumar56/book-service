@@ -112,6 +112,15 @@ public class BookControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    @DisplayName("deleteBook should delete Book with ok status")
+    public void deleteBookShouldDeleteBookIfExistWithOkStatus() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/books/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
     public static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
