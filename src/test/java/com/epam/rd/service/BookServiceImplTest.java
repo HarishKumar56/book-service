@@ -81,4 +81,11 @@ public class BookServiceImplTest {
         when(bookDao.findById(anyInt())).thenReturn(Optional.empty());
         Assertions.assertThrows(BookNotFoundException.class ,()->bookService.updateBook(bookDto.getBookId() ,bookDto));
     }
+
+    @Test
+    @DisplayName("updateBook should update Book")
+    public void updateBookShouldUpdateBookIfExist(){
+        when(bookDao.findById(anyInt())).thenReturn(Optional.of(book));
+        Assertions.assertDoesNotThrow(()->bookService.updateBook(bookDto.getBookId() ,bookDto));
+    }
 }
