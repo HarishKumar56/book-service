@@ -3,6 +3,7 @@ package com.epam.rd.service;
 import com.epam.rd.dto.BookDto;
 import com.epam.rd.entity.Book;
 import com.epam.rd.exception.BookNotFoundException;
+import com.epam.rd.exception.DuplicateBookException;
 import com.epam.rd.repository.BookDao;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,5 +65,12 @@ public class BookServiceImplTest {
     @DisplayName("saveBook should save Book")
     public void saveBookShouldSaveBook(){
         Assertions.assertDoesNotThrow(()->bookService.saveBook(bookDto));
+    }
+
+    @Test
+    @DisplayName("saveBook should throw exception if Book already exist")
+    public void saveBookShouldThrowExceptionIfBookAlreadyExist(){
+        when(bookDao.existsById(anyInt())).thenReturn(true);
+        Assertions.assertThrows(DuplicateBookException.class ,()->bookService.saveBook(bookDto));
     }
 }

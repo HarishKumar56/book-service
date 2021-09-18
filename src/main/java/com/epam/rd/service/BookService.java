@@ -2,6 +2,7 @@ package com.epam.rd.service;
 
 import com.epam.rd.dto.BookDto;
 import com.epam.rd.exception.BookNotFoundException;
+import com.epam.rd.exception.DuplicateBookException;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ public interface BookService {
 
     BookDto getBookById(int bookId) throws BookNotFoundException;
 
-    void saveBook(BookDto bookDto);
+    void saveBook(BookDto bookDto) throws DuplicateBookException;
 }

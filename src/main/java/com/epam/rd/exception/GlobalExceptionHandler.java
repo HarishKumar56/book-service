@@ -20,4 +20,12 @@ public class GlobalExceptionHandler {
         errors.put("error",exception.getMessage());
         return errors;
     }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(DuplicateBookException.class)
+    public Map<String , String> duplicateBookHandler(DuplicateBookException exception){
+        Map<String , String> errors = new HashMap<>();
+        errors.put("error",exception.getMessage());
+        return errors;
+    }
 }
