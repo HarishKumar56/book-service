@@ -1,5 +1,6 @@
 package com.epam.rd.controller;
 
+import com.epam.rd.exception.BookNotFoundException;
 import com.epam.rd.service.BookService;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +13,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -38,5 +42,15 @@ public class BookControllerTest {
                         .get("/books/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("getBookByID should not found status if Book not exist")
+    public void getBookByIdShouldReturnNotFoundStatusIfBookNotExist() throws Exception {
+        doThrow(BookNotFoundException.class).when(bookService).getBookById(anyInt());
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/books/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }
