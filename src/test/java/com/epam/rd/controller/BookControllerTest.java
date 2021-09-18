@@ -1,7 +1,10 @@
 package com.epam.rd.controller;
 
+import com.epam.rd.dto.BookDto;
 import com.epam.rd.exception.BookNotFoundException;
+import com.epam.rd.exception.DuplicateBookException;
 import com.epam.rd.service.BookService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
@@ -13,8 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,5 +54,36 @@ public class BookControllerTest {
                         .get("/books/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("saveBook should save Book with ok status")
+    public void saveBookShouldSaveBookWithOkStatus() throws Exception {
+        BookDto bookDto = new BookDto(1,"","","");
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/books")
+                        .content(asJsonString(bookDto))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("saveBook should conflict status if Book already exist")
+    public void saveBookShouldReturnConflictStatusIfBookAlreadyExist() throws Exception {
+        doThrow(DuplicateBookException.class).when(bookService).saveBook(any());
+        BookDto bookDto = new BookDto(1,"","","");
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/books")
+                        .content(asJsonString(bookDto))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isConflict());
+    }
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

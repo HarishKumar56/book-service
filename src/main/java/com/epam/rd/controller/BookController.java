@@ -2,13 +2,11 @@ package com.epam.rd.controller;
 
 import com.epam.rd.dto.BookDto;
 import com.epam.rd.exception.BookNotFoundException;
+import com.epam.rd.exception.DuplicateBookException;
 import com.epam.rd.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +26,11 @@ public class BookController {
     @GetMapping("/books/{bookId}")
     public BookDto getBookById(@PathVariable int bookId) throws BookNotFoundException {
         return bookService.getBookById(bookId);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/books")
+    public void saveBook(@RequestBody BookDto bookDto) throws DuplicateBookException {
+        bookService.saveBook(bookDto);
     }
 }
