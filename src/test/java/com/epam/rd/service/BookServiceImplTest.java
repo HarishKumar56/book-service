@@ -2,6 +2,7 @@ package com.epam.rd.service;
 
 import com.epam.rd.dto.BookDto;
 import com.epam.rd.entity.Book;
+import com.epam.rd.exception.BookNotFoundException;
 import com.epam.rd.repository.BookDao;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -46,8 +48,15 @@ public class BookServiceImplTest {
 
     @Test
     @DisplayName("getBook should return Book by Id")
-    public void getBookShouldReturnBookById() {
+    public void getBookShouldReturnBookById() throws BookNotFoundException {
         when(bookDao.findById(anyInt())).thenReturn(java.util.Optional.of(book));
         Assertions.assertEquals(bookDto, bookService.getBookById(1));
+    }
+
+    @Test
+    @DisplayName("getBook should throw exception if Book not exist")
+    public void getBookShouldThrowExceptionIfBookNotExist(){
+        when(bookDao.findById(anyInt())).thenReturn(java.util.Optional.empty());
+        Assertions.assertThrows(BookNotFoundException.class , ()->bookService.getBookById(1));
     }
 }

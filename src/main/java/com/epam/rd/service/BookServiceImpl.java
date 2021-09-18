@@ -2,6 +2,7 @@ package com.epam.rd.service;
 
 import com.epam.rd.dto.BookDto;
 import com.epam.rd.entity.Book;
+import com.epam.rd.exception.BookNotFoundException;
 import com.epam.rd.repository.BookDao;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,10 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public BookDto getBookById(int bookId) {
+    public BookDto getBookById(int bookId) throws BookNotFoundException {
         Optional<Book> book = bookDao.findById(bookId);
         if(book.isEmpty()){
-
+            throw new BookNotFoundException("Book with this Id Not Found");
         }
         return modelMapper.map(book.get() , BookDto.class);
     }
