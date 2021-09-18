@@ -39,5 +39,9 @@ public class BookController {
     public void updateBook(@PathVariable int bookId ,@RequestBody BookDto bookDto) throws BookNotFoundException {
         bookService.updateBook(bookId,bookDto);
     }
-
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/books/{bookId}")
+    public void deleteBook(@PathVariable int bookId) throws BookNotFoundException {
+        bookService.deleteBook(bookId);
+    }
 }
