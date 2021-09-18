@@ -7,11 +7,13 @@ import com.epam.rd.exception.DuplicateBookException;
 import com.epam.rd.repository.BookDao;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service("bookService")
 public class BookServiceImpl implements BookService{
     @Autowired
     ModelMapper modelMapper;
