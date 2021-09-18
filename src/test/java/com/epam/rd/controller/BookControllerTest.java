@@ -30,4 +30,13 @@ public class BookControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    @DisplayName("getBook should return Book by Id with Ok Status")
+    public void getBookShouldReturnBookByIdWithOkStatus() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/books/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 }
