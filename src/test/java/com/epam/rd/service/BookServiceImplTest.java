@@ -16,6 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -72,5 +73,12 @@ public class BookServiceImplTest {
     public void saveBookShouldThrowExceptionIfBookAlreadyExist(){
         when(bookDao.existsById(anyInt())).thenReturn(true);
         Assertions.assertThrows(DuplicateBookException.class ,()->bookService.saveBook(bookDto));
+    }
+
+    @Test
+    @DisplayName("updateBook should throw exception if Book not exist")
+    public void updateBookShouldThrowExceptionIfBookNotExist(){
+        when(bookDao.findById(anyInt())).thenReturn(Optional.empty());
+        Assertions.assertThrows(BookNotFoundException.class ,()->bookService.updateBook(bookDto.getBookId() ,bookDto));
     }
 }

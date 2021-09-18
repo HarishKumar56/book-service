@@ -42,4 +42,14 @@ public class BookServiceImpl implements BookService{
         }
         bookDao.save(book);
     }
+
+    @Override
+    public void updateBook(int bookId, BookDto bookDto) throws BookNotFoundException {
+        BookDto bookDto1 = getBookById(bookId);
+        bookDto1.setName(bookDto.getName());
+        bookDto1.setAuthor(bookDto.getAuthor());
+        bookDto1.setPublisher(bookDto.getPublisher());
+        Book book = modelMapper.map(bookDto1 , Book.class);
+        bookDao.save(book);
+    }
 }

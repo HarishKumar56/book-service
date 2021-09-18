@@ -12,4 +12,7 @@ public interface BookService {
     BookDto getBookById(int bookId) throws BookNotFoundException;
 
     void saveBook(BookDto bookDto) throws DuplicateBookException;
+
+    void updateBook(int bookId, BookDto bookDto) throws BookNotFoundException;
+
 }
