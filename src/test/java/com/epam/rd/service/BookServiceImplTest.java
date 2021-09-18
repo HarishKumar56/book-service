@@ -88,4 +88,11 @@ public class BookServiceImplTest {
         when(bookDao.findById(anyInt())).thenReturn(Optional.of(book));
         Assertions.assertDoesNotThrow(()->bookService.updateBook(bookDto.getBookId() ,bookDto));
     }
+
+    @Test
+    @DisplayName("deleteBook should throw exception if Book not exist")
+    public void deleteBookShouldThrowExceptionIfBookNotExist(){
+        when(bookDao.findById(anyInt())).thenReturn(Optional.empty());
+        Assertions.assertThrows(BookNotFoundException.class ,()->bookService.deleteBook(book.getBookId()));
+    }
 }

@@ -52,4 +52,11 @@ public class BookServiceImpl implements BookService{
         Book book = modelMapper.map(bookDto1 , Book.class);
         bookDao.save(book);
     }
+
+    @Override
+    public void deleteBook(int bookId) throws BookNotFoundException {
+        BookDto bookDto = getBookById(bookId);
+        Book book = modelMapper.map(bookDto , Book.class);
+        bookDao.delete(book);
+    }
 }
