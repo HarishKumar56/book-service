@@ -9,4 +9,6 @@ public interface BookService {
     List<BookDto> getAllBooks();
 
     BookDto getBookById(int bookId) throws BookNotFoundException;
+
+    void saveBook(BookDto bookDto);
 }

@@ -32,4 +32,13 @@ public class BookServiceImpl implements BookService{
         }
         return modelMapper.map(book.get() , BookDto.class);
     }
+
+    @Override
+    public void saveBook(BookDto bookDto) {
+        Book book = modelMapper.map(bookDto , Book.class);
+        if(bookDao.existsById(book.getBookId())){
+
+        }
+        bookDao.save(book);
+    }
 }

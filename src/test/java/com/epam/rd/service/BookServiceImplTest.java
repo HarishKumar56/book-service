@@ -59,4 +59,10 @@ public class BookServiceImplTest {
         when(bookDao.findById(anyInt())).thenReturn(java.util.Optional.empty());
         Assertions.assertThrows(BookNotFoundException.class , ()->bookService.getBookById(1));
     }
+
+    @Test
+    @DisplayName("saveBook should save Book")
+    public void saveBookShouldSaveBook(){
+        Assertions.assertDoesNotThrow(()->bookService.saveBook(bookDto));
+    }
 }
