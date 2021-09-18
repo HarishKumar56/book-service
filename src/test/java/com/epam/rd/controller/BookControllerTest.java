@@ -91,6 +91,17 @@ public class BookControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    @DisplayName("updateBook should update Book and give ok status")
+    public void updateBookShouldUpdateBookIfExistAndGiveOkStatus() throws Exception {
+        BookDto bookDto = new BookDto(1,"","","");
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/books/1")
+                        .content(asJsonString(bookDto))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
     public static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
